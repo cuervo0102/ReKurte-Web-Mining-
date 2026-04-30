@@ -4,3 +4,6 @@ errors.json
 offer_urls_0.json
 offer_urls.json
 offers_raw.json
+offers_clean.csv
+results.txt
+outputs/
