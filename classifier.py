@@ -8,6 +8,7 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+import pickle
 
 os.makedirs("outputs", exist_ok=True)
 
@@ -88,3 +89,27 @@ plt.tight_layout()
 plt.savefig("outputs/model_comparison.png", dpi=150)
 plt.close()
 print("outputs/model_comparison.png sauvegarde")
+
+
+
+
+
+
+with open("lr_model.pkl", "wb") as f:
+    pickle.dump(lr, f)
+
+with open("nb_model.pkl", "wb") as f:
+    pickle.dump(nb, f)
+
+results = {
+    "y_test": y_test.tolist(),
+    "y_pred_lr": y_pred_lr.tolist(),
+    "y_pred_nb": y_pred_nb.tolist(),
+    "acc_lr": acc_lr,
+    "acc_nb": acc_nb,
+    "top_secteurs": list(top_secteurs),
+}
+with open("clf_results.pkl", "wb") as f:
+    pickle.dump(results, f)
+
+print("lr_model.pkl + nb_model.pkl + clf_results.pkl sauvegardes")

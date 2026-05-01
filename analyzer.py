@@ -8,7 +8,6 @@ from sklearn.cluster import KMeans
 from collections import Counter
 import re
 import os
-
 import pickle
 
 matplotlib.use("Agg")
@@ -29,21 +28,70 @@ df["contrat_clean"] = df["contrat_clean"].where(
 )
 
 #Nettoyage texte description
-STOPWORDS_FR = set([
+STOPWORDS_FR = {
     "de","du","la","le","les","des","et","en","un","une","pour",
     "dans","sur","avec","par","au","aux","est","sont","nous","vous",
-    "ils","elle","que","qui","se","sa","son","ses","leur","leurs",
-    "ce","ou","mais","donc","car","ni","ne","pas","plus","très",
-    "être","avoir","faire","tout","bien","cette","ces","ils","nous"
-])
+    "que","qui","se","sa","son","ses","ce","ou","pas","plus","très",
+    "être","avoir","faire","tout","bien","cette","ces","notre","votre",
+    "leur","leurs","ils","elles","mais","donc","car","ni","ne","même",
+    "also","when","your","this","that","will","with","from","have",
+
+    "postulez","postuler","postulé","candidature","candidat",
+    "jourssurrekrute","nonpubli","nonposte","hybridepubli",
+    "marocbac","marocbaccalauréat","baccalauréat",
+    "rekrute","rekrutema","huisrekrute",
+    "travailcdit","travailambitioncdit","travailorganisationcdit",
+    "flexionbesoin","autonomieimplication","persuasionintuition",
+    "extraversionvolont","organisationcdit","actiontravail",
+    "quipeimplication","travailambition","motionellet",
+    "diaire","nieur","nacit","curit","gion",
+    "publi","cdit","tiers","avant","après",
+    "poste","postes","secteur","minimum","recherche",
+    "maroc","casablanca","rabat","tanger","agadir",
+    "marrakech","fes","kenitra","meknes","oujda",
+    "profil","expérience","années","formation","niveau",
+    "type","contrat","télétravail","publication","rejoindre",
+    "intégrer","assurer","gérer","participer","développer",
+    "mission","missions","vos","vous","votre","notre",
+    "entreprise","société","groupe","équipe","sein",
+}
+
+
+
+STOPWORDS_EXTRA = {
+    "nonpubliée", "nonpubliee", "nonpubli",
+    "hybridepubliée", "hybridepubliee", "hybridepubli",
+    "huisurrekrute", "huisrekrute",
+    "règlesbesoin", "reglesbesoin",
+    "règlesvolonté", "reglesvolonte",
+    "région", "region",
+    "dutrespect", "minimumrespect",
+    "minimumvolont",
+
+    "ecole", "école", "licence", "master",
+    "junior", "senior", "confirmé", "confirme",
+    "aujourd", "respect", "maximum", "minimum",
+    "centre", "autres", "Export", "export",
+    "métiers", "metiers", "cycles", "motos",
+    "chargé", "charge", "projet", "etudes",
+    "responsable", "assistant", "technique",
+}
+
+STOPWORDS_FR = STOPWORDS_FR | STOPWORDS_EXTRA
+
 
 def clean_text(text):
-    if pd.isna(text):
-        return ""
+    if pd.isna(text): return ""
     text = str(text).lower()
-    text = re.sub(r'[^a-zàâäeèêëîïôùûüçœæ\s]', ' ', text)
+    text = re.sub(r'http\S+|www\S+|\S+@\S+', ' ', text)
+    text = re.sub(r'[^a-zàâäéèêëîïôùûüçœæ\s]', ' ', text)
     tokens = text.split()
-    tokens = [t for t in tokens if t not in STOPWORDS_FR and len(t) > 3]
+    tokens = [
+        t for t in tokens
+        if t not in STOPWORDS_FR
+        and len(t) > 3        
+        and len(t) < 15      
+    ]
     return " ".join(tokens)
 
 df["text_clean"] = df["description"].apply(clean_text)

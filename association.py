@@ -6,6 +6,8 @@ from mlxtend.preprocessing import TransactionEncoder
 import matplotlib.pyplot as plt
 import os
 
+import pickle
+
 os.makedirs("outputs", exist_ok=True)
 
 df = pd.read_csv("offers_analyzed.csv", encoding="utf-8-sig")
@@ -81,3 +83,14 @@ print("outputs/association_rules.png sauvegarde")
 
 rules.to_csv("outputs/association_rules.csv", index=False, encoding="utf-8-sig")
 print("outputs/association_rules.csv sauvegarde")
+
+
+
+
+
+
+df["skills"].to_pickle("skills.pkl")
+rules.to_pickle("assoc_rules.pkl")
+frequent_itemsets.to_pickle("frequent_itemsets.pkl")
+
+print("skills.pkl + assoc_rules.pkl sauvegardés")

@@ -10,3 +10,13 @@ outputs/
 offers_analyzed.csv
 tfidf_vectorizer.pkl
 tfidf_matrix.npz
+offers_analyzed.csv
+assoc_rules.pkl
+tfidf_vectorizer.pkl
+tfidf_matrix.npz
+skills.pkl
+lr_model.pkl
+nb_model.pkl
+frequent_itemsets.pkl
+clf_results.pkl
+dashboard.py
