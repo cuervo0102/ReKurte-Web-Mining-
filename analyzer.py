@@ -1,13 +1,15 @@
-#analyzer.py
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
+import scipy.sparse as sp
 from wordcloud import WordCloud
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from collections import Counter
 import re
 import os
+
+import pickle
 
 matplotlib.use("Agg")
 os.makedirs("outputs", exist_ok=True)
@@ -140,3 +142,15 @@ print("clusters.png")
 df.to_csv("offers_analyzed.csv", index=False, encoding="utf-8-sig")
 print(f" Analyse terminee — offers_analyzed.csv sauvegarde")
 print(f"Visualisations dans /outputs/")
+
+
+
+
+
+# Sauvegarder vectorizer et matrix pour reutilisation
+with open("tfidf_vectorizer.pkl", "wb") as f:
+    pickle.dump(vectorizer, f)
+
+sp.save_npz("tfidf_matrix.npz", X)
+
+print("TF-IDF sauvegarde  tfidf_vectorizer.pkl + tfidf_matrix.npz")

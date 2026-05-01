@@ -7,3 +7,6 @@ offers_raw.json
 offers_clean.csv
 results.txt
 outputs/
+offers_analyzed.csv
+tfidf_vectorizer.pkl
+tfidf_matrix.npz
