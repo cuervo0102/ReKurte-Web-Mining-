@@ -13,7 +13,6 @@ HEADERS = {
 BASE_URL = "https://www.rekrute.com/offres.html"
 
 def get_offer_urls(page: int) -> list[str]:
-    # ✅ Paramètres corrects extraits du HTML
     params = {
         "p": page,
         "s": 1,
@@ -33,8 +32,7 @@ def get_offer_urls(page: int) -> list[str]:
         if href:
             urls.append("https://www.rekrute.com" + href)
 
-    return urls  # pas de set() ici, dédup à la fin
-
+    return urls  
 
 def crawl_all_pages(max_pages: int = 180) -> list[str]:
     all_urls = []
@@ -52,7 +50,6 @@ def crawl_all_pages(max_pages: int = 180) -> list[str]:
 
         time.sleep(1.5)
 
-    # Déduplication finale
     all_urls = list(set(all_urls))
 
     with open("offer_urls.json", "w", encoding="utf-8") as f:

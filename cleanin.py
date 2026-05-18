@@ -1,4 +1,3 @@
-# cleaner.py
 import json
 import pandas as pd
 import re
@@ -31,18 +30,18 @@ def extract_from_description(desc, patterns):
     return None
 
 exp_patterns = [
-    r'[Ee]xp[eé]rience\s*(?:requise)?\s*[:/]\s*([^\n|]+)',
+    r'[Ee]xp[ee]rience\s*(?:requise)?\s*[:/]\s*([^\n|]+)',
     r'(\d+\s*[àa]\s*\d+\s*ans?)',
-    r'(Junior|Confirmé|Senior|Débutant)[^,\n]*'
+    r'(Junior|Confirme|Senior|Debutant)[^,\n]*'
 ]
 df["experience_ext"] = df["description"].apply(
     lambda x: extract_from_description(x, exp_patterns)
 )
 
 niveau_patterns = [
-    r"[Nn]iveau\s*d'[eé]tude\s*[:/]\s*([^\n|]+)",
+    r"[Nn]iveau\s*d'[ee]tude\s*[:/]\s*([^\n|]+)",
     r'(Bac\s*[+\d]+[^\n,]*)',
-    r'(Master|Licence|Ingénieur|Doctorat)[^\n,]*'
+    r'(Master|Licence|Ingenieur|Doctorat)[^\n,]*'
 ]
 df["niveau_ext"] = df["description"].apply(
     lambda x: extract_from_description(x, niveau_patterns)
@@ -50,7 +49,7 @@ df["niveau_ext"] = df["description"].apply(
 
 contrat_patterns = [
     r'[Tt]ype\s*de\s*contrat\s*[:/]\s*([^\n|]+)',
-    r'\b(CDI|CDD|Stage|Freelance|Intérim)\b'
+    r'\b(CDI|CDD|Stage|Freelance|Interim)\b'
 ]
 df["contrat_ext"] = df["description"].apply(
     lambda x: extract_from_description(x, contrat_patterns)
@@ -88,7 +87,7 @@ print(f"\nNulls restants :\n{df.isnull().sum()}")
 print(f"\nTop villes :\n{df['ville'].value_counts().head(10)}")
 print(f"\nTop secteurs :\n{df['secteur'].value_counts().head(10)}")
 print(f"\nTop contrats :\n{df['contrat_ext'].value_counts().head(5)}")
-print(f"\nTop expériences :\n{df['experience_ext'].value_counts().head(5)}")
+print(f"\nTop experiences :\n{df['experience_ext'].value_counts().head(5)}")
 
 df.to_csv("offers_clean.csv", index=False, encoding="utf-8-sig")
-print(f"\n[✓] offers_clean.csv sauvegardé — {len(df)} offres")
+print(f"\offers_clean.csv sauvegarde — {len(df)} offres")
